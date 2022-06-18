@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "declaration": true,
+    "rootDirs": ["./src"],
+    "strict": true
+  },
+  "exclude": ["node_modules", "dist"]
+}
