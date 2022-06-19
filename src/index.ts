@@ -1,14 +1,19 @@
-import { overrideFS } from "./overrides/filesystem";
+import { overrideFS } from "./overrides/fileSystem";
 import { overrideNetwork } from "./overrides/network";
-import { setRoot, setModulesFolder, setAllowedHosts } from "./runtime";
+import { overrideChildProcess } from "./overrides/childProcess";
+import {
+  setRoot,
+  setModulesFolder,
+  setAllowedHosts,
+  setAllowedCommands,
+} from "./runtime";
+// import appRoot from "app-root-path";
 
-function determineProjectRoot() {
-  return process.cwd();
-}
+setRoot(process.cwd());
 
-const root = determineProjectRoot();
-setRoot(root);
+// Overrides
 overrideFS();
 overrideNetwork();
+overrideChildProcess();
 
-export { setRoot, setModulesFolder, setAllowedHosts };
+export { setRoot, setModulesFolder, setAllowedHosts, setAllowedCommands };

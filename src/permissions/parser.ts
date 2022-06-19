@@ -1,7 +1,5 @@
-import { getAllowedHosts, getRoot } from "../runtime";
-import { getPackageTrace } from "../trace";
+import { getAllowedCommands, getAllowedHosts, getRoot } from "../runtime";
 import path from "path";
-import * as parser from "error-stack-parser";
 
 function isChildOf(parent: string, dir: string) {
   const relative = path.relative(parent, dir);
@@ -30,4 +28,10 @@ export function isNetworkAllowed(host: string, trace: string[]) {
   if (trace.length === 0) return true;
 
   return getAllowedHosts().some((allowedHost) => allowedHost === host);
+}
+
+export function isShellCommandAllowed(command: string) {
+  return getAllowedCommands().some((allowedCommand) =>
+    command.startsWith(allowedCommand)
+  );
 }

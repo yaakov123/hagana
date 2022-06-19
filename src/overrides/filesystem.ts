@@ -5,6 +5,7 @@ import { isReadAllowed, isWriteAllowed } from "../permissions/parser";
 import { FileSystemForbiddenError } from "../errors";
 import { Operation } from "../types";
 import { getPackageTrace } from "../trace";
+import { getRoot } from "../runtime";
 
 function onRead(target: any, thisArg: any, argArray: any) {
   const trace = getPackageTrace();
@@ -12,7 +13,12 @@ function onRead(target: any, thisArg: any, argArray: any) {
     return Reflect.apply(target, thisArg, argArray);
   }
 
-  throw new FileSystemForbiddenError(Operation.FILE_READ, trace, argArray[0]);
+  throw new FileSystemForbiddenError(
+    Operation.FILE_READ,
+    trace,
+    argArray[0],
+    getRoot()
+  );
 }
 
 function onWrite(target: any, thisArg: any, argArray: any) {
@@ -21,7 +27,12 @@ function onWrite(target: any, thisArg: any, argArray: any) {
     return Reflect.apply(target, thisArg, argArray);
   }
 
-  throw new FileSystemForbiddenError(Operation.FILE_WRITE, trace, argArray[0]);
+  throw new FileSystemForbiddenError(
+    Operation.FILE_WRITE,
+    trace,
+    argArray[0],
+    getRoot()
+  );
 }
 
 function overrideFSRead() {
