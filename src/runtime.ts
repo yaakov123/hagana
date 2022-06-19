@@ -1,11 +1,13 @@
 interface Runtime {
   root: string;
   modulesFolder: string;
+  allowedHosts: string[];
 }
 
 const runtime: Runtime = {
   root: "",
   modulesFolder: "node_modules",
+  allowedHosts: [],
 };
 
 export function setRoot(root: string) {
@@ -22,4 +24,12 @@ export function setModulesFolder(folder: string) {
 
 export function getModulesFolder() {
   return runtime.modulesFolder;
+}
+
+export function setAllowedHosts(hosts: string[]) {
+  runtime.allowedHosts = hosts;
+}
+
+export function getAllowedHosts() {
+  return runtime.allowedHosts;
 }

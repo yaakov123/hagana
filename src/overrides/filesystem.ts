@@ -1,27 +1,35 @@
 import Module from "module";
 import fs from "fs";
 import { createProxy } from "../proxy";
-import { getRoot } from "../runtime";
+import { isReadAllowed, isWriteAllowed } from "../permissions/parser";
+import { FileSystemForbiddenError } from "../errors";
+import { Operation } from "../types";
 import { getPackageTrace } from "../trace";
-import { isReadAllowed } from "../permissions/parser";
 
 function onRead(target: any, thisArg: any, argArray: any) {
-  if (isReadAllowed(argArray[0])) {
+  const trace = getPackageTrace();
+  if (isReadAllowed(argArray[0], trace)) {
     return Reflect.apply(target, thisArg, argArray);
   }
+
+  throw new FileSystemForbiddenError(Operation.FILE_READ, trace, argArray[0]);
 }
 
 function onWrite(target: any, thisArg: any, argArray: any) {
-  console.log("onWrite: ", argArray[0]);
-  return Reflect.apply(target, thisArg, argArray);
+  const trace = getPackageTrace();
+  if (isWriteAllowed(argArray[0], trace)) {
+    return Reflect.apply(target, thisArg, argArray);
+  }
+
+  throw new FileSystemForbiddenError(Operation.FILE_WRITE, trace, argArray[0]);
 }
 
 function overrideFSRead() {
-  // Module.prototype.require = createProxy(Module.prototype.require, {
-  //   apply(target, thisArg, argArray) {
-  //     return Reflect.apply(target, thisArg, argArray);
-  //   },
-  // });
+  Module.prototype.require = createProxy(Module.prototype.require, {
+    apply(target, thisArg, argArray) {
+      return Reflect.apply(target, thisArg, argArray);
+    },
+  });
 
   fs.promises.readFile = createProxy(fs.promises.readFile, {
     apply: onRead,
