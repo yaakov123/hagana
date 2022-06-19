@@ -13,51 +13,38 @@ function createCommandString(argArray: any[]) {
   return baseCommand;
 }
 
+function onShellAccess(target: any, thisArg: any, argArray: any[]) {
+  const command = createCommandString(argArray);
+  if (isShellCommandAllowed(command)) {
+    return Reflect.apply(target, thisArg, argArray);
+  }
+
+  const trace = getPackageTrace();
+  throw new ShellCommandError(command, trace);
+}
+
 export function overrideChildProcess() {
   childProcess.exec = new Proxy(childProcess.exec, {
-    apply: function (target, thisArg, argArray) {
-      if (isShellCommandAllowed(argArray[0])) {
-        return Reflect.apply(target, thisArg, argArray);
-      }
+    apply: onShellAccess,
+  });
 
-      const trace = getPackageTrace();
-      throw new ShellCommandError(argArray[0], trace);
-    },
+  childProcess.execSync = new Proxy(childProcess.execSync, {
+    apply: onShellAccess,
   });
 
   childProcess.execFile = new Proxy(childProcess.execFile, {
-    apply: function (target, thisArg, argArray) {
-      const command = createCommandString(argArray);
-      if (isShellCommandAllowed(command)) {
-        return Reflect.apply(target, thisArg, argArray);
-      }
-
-      const trace = getPackageTrace();
-      throw new ShellCommandError(command, trace);
-    },
+    apply: onShellAccess,
   });
 
   childProcess.execFileSync = new Proxy(childProcess.execFileSync, {
-    apply: function (target, thisArg, argArray) {
-      const command = createCommandString(argArray);
-      if (isShellCommandAllowed(command)) {
-        return Reflect.apply(target, thisArg, argArray);
-      }
-
-      const trace = getPackageTrace();
-      throw new ShellCommandError(command, trace);
-    },
+    apply: onShellAccess,
   });
 
   childProcess.spawn = new Proxy(childProcess.spawn, {
-    apply: function (target, thisArg, argArray) {
-      const command = createCommandString(argArray);
-      if (isShellCommandAllowed(command)) {
-        return Reflect.apply(target, thisArg, argArray);
-      }
+    apply: onShellAccess,
+  });
 
-      const trace = getPackageTrace();
-      throw new ShellCommandError(command, trace);
-    },
+  childProcess.spawnSync = new Proxy(childProcess.spawnSync, {
+    apply: onShellAccess,
   });
 }
