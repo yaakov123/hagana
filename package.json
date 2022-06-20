@@ -1,13 +1,12 @@
 {
-  "name": "core",
-  "version": "1.0.0",
+  "name": "hagana",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "nodemon ./src/index.ts",
-    "build": "tsc -w",
-    "build:es": "esbuild ./src/index.ts --bundle --watch --platform=node --outfile=./dist/hagana.js",
+    "dev": "tsc -w",
+    "build": "tsc",
     "test": "vitest"
   },
   "keywords": [],
