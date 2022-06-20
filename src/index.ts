@@ -7,9 +7,9 @@ import {
   setAllowedHosts,
   setAllowedCommands,
 } from "./runtime";
-// import appRoot from "app-root-path";
+import appRoot from "app-root-path";
 
-setRoot(process.cwd());
+setRoot(appRoot.path);
 
 // Overrides
 overrideFS();

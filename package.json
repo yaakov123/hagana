@@ -7,13 +7,15 @@
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc",
-    "test": "vitest"
+    "test": "vitest",
+    "test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/app-root-path": "^1.2.4",
+    "@vitest/ui": "^0.15.1",
     "nodemon": "^2.0.16",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.4",

@@ -8,7 +8,6 @@ import {
   maliciousWriteFile,
   maliciousWriteFileSync,
 } from "../fake_modules/malicious-read";
-import fs from "fs";
 
 describe("fileSystem", () => {
   beforeAll(() => {
