@@ -16,4 +16,9 @@ overrideFS();
 overrideNetwork();
 overrideChildProcess();
 
-export { setRoot, setModulesFolder, setAllowedHosts, setAllowedCommands };
+export default {
+  setRoot,
+  setModulesFolder,
+  setAllowedHosts,
+  setAllowedCommands,
+};
