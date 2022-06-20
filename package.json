@@ -1,5 +1,5 @@
 {
-  "name": "hagana",
+  "name": "@hagana/hagana",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/app-root-path": "^1.2.4",
     "@vitest/ui": "^0.15.1",
