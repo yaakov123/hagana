@@ -1,6 +1,7 @@
+<p align="center">
 <img src="https://raw.githubusercontent.com/yaakov123/hagana/master/assets/hagana.svg">
-
-# Hagana
+<h1 align="center">Hagana</h1>
+</p>
 
 Hagana provides runtime protection for your NodeJS applications from malicious packages.
 
