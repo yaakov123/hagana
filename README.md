@@ -1,6 +1,6 @@
 # Hagana
 
-Hagana provides runtime protection for your NodeJS applications from malicous packages.
+Hagana provides runtime protection for your NodeJS applications from malicious packages.
 
 ### The problem
 
