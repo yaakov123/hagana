@@ -172,24 +172,24 @@ The next step is to execute a malicious file that was retrieved using `spawnSync
 
 #### File system
 
-`fs.readFile`
-`fs.readFileSync`
-`fs.promises.readFile`
-`require`
-`fs.writeFile`
-`fs.writeFileSync`
-`fs.promises.writeFile`
+- `fs.readFile`
+- `fs.readFileSync`
+- `fs.promises.readFile`
+- `require`
+- `fs.writeFile`
+- `fs.writeFileSync`
+- `fs.promises.writeFile`
 
 #### Network
 
-`http.request`
-`https.request`
+- `http.request`
+- `https.request`
 
 #### Commands
 
-`child_process.exec`
-`child_process.execSync`
-`child_process.execFile`
-`child_process.execFileSync`
-`child_process.spawn`
-`child_process.spawnSync`
+- `child_process.exec`
+- `child_process.execSync`
+- `child_process.execFile`
+- `child_process.execFileSync`
+- `child_process.spawn`
+- `child_process.spawnSync`
