@@ -5,6 +5,8 @@
 
 Hagana provides runtime protection for your NodeJS applications from malicious packages.
 
+# [Limitations](#limitations)
+
 ## **Installation**
 
 In order to get started with Hagana all you need to do is run:
@@ -155,3 +157,7 @@ To continue to the next step in the JFrog attack.
 The next step is to execute a malicious file that was retrieved using `spawnSync(path.join(process.cwd(), 'mac.dec.js')`.
 
 **Once again, Hagana would have blocked this part of the attack outright!**
+
+# Limitations
+
+As of this release, there are still a few limitations that need to be overcome.
