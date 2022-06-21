@@ -26,24 +26,3 @@ export function split(
 ) {
   return $split.call(targetString, separator, limit);
 }
-
-if (import.meta.vitest) {
-  const { describe, test, expect } = import.meta.vitest;
-
-  describe("$string", () => {
-    test("startsWith", () => {
-      expect(startsWith("abc", "ab")).toEqual(true);
-      expect(startsWith("abc", "ba")).toEqual(false);
-    });
-
-    test("includes", () => {
-      expect(includes("abc", "ab")).toEqual(true);
-      expect(includes("abc", "ba")).toEqual(false);
-      expect(includes("abc", "bc")).toEqual(true);
-    });
-
-    test("split", () => {
-      expect(split("a/a", "/")).toEqual(["a", "a"]);
-    });
-  });
-}

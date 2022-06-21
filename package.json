@@ -1,12 +1,12 @@
 {
   "name": "@hagana/hagana",
-  "version": "0.0.2",
-  "description": "",
+  "version": "0.0.6",
+  "description": "Runtime protection for NodeJS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "tsc -w",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "test": "vitest",
     "test:ui": "vitest --ui"
   },

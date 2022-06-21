@@ -1,4 +1,4 @@
-import hagana from "../../index";
+import * as hagana from "../../index";
 import { beforeAll, describe, expect, test } from "vitest";
 import {
   maliciousPromiseReadFile,
