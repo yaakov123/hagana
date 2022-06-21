@@ -48,6 +48,15 @@ Hagana's file system protection works by creating a sandbox around your project 
 
 The sandbox prevents 3rd party code from reading/writing to/from the file system that's outside of the project root.
 
+As mentioned previously, Hagana does a best effort attempt at finding the project root automatically, but if you'd like to tell it explicitly, you can do the following:
+
+```js
+import hagana from "hagana";
+
+// Or whatever absolute path you'd like
+hagana.setRoot(__dirname);
+```
+
 **2. Network protection.**
 
 Hagana takes a zero-trust approach when it comes to outbound network activity. By default, no outbound traffic is allowed. You can allow outbound traffic by creating a whitelist of hosts as follows:
@@ -104,7 +113,7 @@ A quick google search "npm supply chain attacks" is enough to show that this is 
 
 There have been a few attempts to solve this, but in my opnion the existing solutions are not enough.
 
-- Snyk/Dependabot - Look up packages to see if any vulnerabilities have been reported to public CVE databases
+- Snyk/Dependabot - Look up packages to see if any vulnerabilities have been reported to public CVE databases. This is clearly not enough to stop an active supply chain attack.
 
 - Socket.dev - Which actually does deep inspection into what each package in your supply chain does and gives you deep insights (e.g. package uses network, etc.). I actually really like what Socket is doing, but it's still not enough.
 
@@ -127,9 +136,7 @@ But let's say that for whatever reason, you decided to globally allow file syste
 
 ### **Unauthorized network access**
 
-Essentially Hagana shuts down all outbound network communication (currently only over `http/https`, `dns/websocket` are coming soon). It's then up to you to whitelist the hosts which you would like allow outbound traffic.
-
-You can decide to only allow outbound traffic to `["myservices.com", "allowedservices.com"]`
+As mentioned before, Hagana uses a zero-trust approach to locking down network access so you need to whitelist the allowed hosts.
 
 To continue to the next step in the aforementioned JFrog attack.
 
@@ -141,8 +148,7 @@ But let's say that for whatever reason you decided to globally allow **all** net
 
 ### **Malcious use of spawn/exec**
 
-In most NodeJS applications, the use of `child_process.spawn/exec` and similar functions is rarely necessary. Therefore, Hagana blocks all commands to start off with.
-It's then up to you to decide which commands are allowed. For example, you can allow all node commands (`["node"]`), or only specific commands (`node --version`).
+In most NodeJS applications, the use of `child_process.spawn/exec` and similar functions is rarely necessary. Therefore, Hagana blocks all commands to start off with and allows you to whitelist specific commands that you need.
 
 To continue to the next step in the JFrog attack.
 
