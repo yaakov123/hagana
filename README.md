@@ -5,7 +5,7 @@
 
 Hagana provides runtime protection for your NodeJS applications from malicious packages.
 
-# [Limitations](#limitations)
+> ### [Important Limitations](#limitations)
 
 ## **Installation**
 
