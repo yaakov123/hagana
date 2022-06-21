@@ -11,6 +11,8 @@ Hagana provides runtime protection for your NodeJS applications from malicious p
 
 > #### A large amount of supply chain attacks occur in the `preinstall/postinstall` scripts inside the package.json file. I do have a solution for this, but I wanted to get a minimum viable solution out for runtime protection out first.
 
+> #### Once I have the solution for this ready, it will be released as a different package (most likely as a cli) which will allow for the safe execution of `npm i`
+
 ---
 
 ## **Installation**
@@ -163,7 +165,3 @@ To continue to the next step in the JFrog attack.
 The next step is to execute a malicious file that was retrieved using `spawnSync(path.join(process.cwd(), 'mac.dec.js')`.
 
 **Once again, Hagana would have blocked this part of the attack outright!**
-
-# Limitations
-
-As of this release, there are still a few limitations that need to be overcome.
