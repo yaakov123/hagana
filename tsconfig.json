@@ -7,7 +7,8 @@
     "declaration": true,
     "rootDirs": ["src"],
     "strict": true,
-    "types": ["vitest/globals", "vitest/importMeta"]
+    "types": ["vitest/globals", "vitest/importMeta"],
+    "emitDeclarationOnly": true
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules", "dist", "src/test/**/*"]
