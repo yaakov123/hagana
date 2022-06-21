@@ -5,16 +5,6 @@
 
 Hagana provides runtime protection for your NodeJS applications from malicious packages.
 
----
-
-> #### Before you get too excited, there are a few limitations that still need to be solved before this is a 100% complete solution to supply chain attacks.
-
-> #### A large amount of supply chain attacks occur in the `preinstall/postinstall` scripts inside the package.json file. I do have a solution for this, but I wanted to get a minimum viable solution out for runtime protection out first.
-
-> #### Once I have the solution for this ready, it will be released as a different package (most likely as a cli) which will allow for the safe execution of `npm i`
-
----
-
 ## **Installation**
 
 In order to get started with Hagana all you need to do is run:
@@ -100,6 +90,16 @@ hagana.setAllowedCommands(["node --version"]);
 As a general rule, it's always better to add specific commands to the whitelist.
 
 > ⚠️ Something that I still need to think about is the fact that using the "commands startsWith" approach is it opens a hole that allows an attacker to run `node --version && cat ~/.ssh/id_rsa` which is clearly a problem.
+
+---
+
+> #### Before you get too excited, there are a few limitations that still need to be solved before this is a 100% complete solution to supply chain attacks.
+
+> #### A large amount of supply chain attacks occur in the `preinstall/postinstall` scripts inside the package.json file. I do have a solution for this, but I wanted to get a minimum viable solution out for runtime protection out first.
+
+> #### Once I have the solution for this ready, it will be released as a different package (most likely as a cli) which will allow for the safe execution of `npm i`
+
+---
 
 ## **The problem**
 
