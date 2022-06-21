@@ -5,7 +5,7 @@
 
 Hagana provides runtime protection for your NodeJS applications from malicious packages.
 
-### The problem
+## **The problem**
 
 Every time you add a new npm package to your project you're opening a Pandora's box.
 
@@ -35,4 +35,42 @@ There have been a few attempts to solve this, but in my opnion the existing solu
 
 In my opinion, in order to make sure that our Node applications are actually safe, we need runtime protection. This is where Hagana comes in.
 
-### The solution
+## **The solution**
+
+Hagana takes a novel approach to securing your application. At the moment it protects against the following issues.
+
+### **Unauthorized file system access**
+
+The approach I've taken in Hagana is to create a file system sandbox which **only** allows access to files **within your project.**
+
+As seen in a recent attack discovered by [JFrog](https://jfrog.com/blog/npm-supply-chain-attack-targets-german-based-companies/) the first step is to read information from `['package.json', '/etc/hosts', '/etc/resolv.conf']`.
+This is a classic example of unauthorized file system access. Why should a package that you installed have access to files located in `/etc/*`?
+
+**Hagana would have blocked this outright!**
+
+But let's say that for whatever reason, you decided to globally allow file system access to all packages...
+
+### **Unauthorized network access**
+
+Essentially Hagana shuts down all outbound network communication (currently only over `http/https`, `dns/websocket` are coming soon). It's then up to you to whitelist the hosts which you would like allow outbound traffic.
+
+You can decide to only allow outbound traffic to `["myservices.com", "allowedservices.com"]`
+
+To continue to the next step in the aforementioned JFrog attack.
+
+The next step in the attack is to take the data that was read from your file system and send it to the attacker's server (`malicious-server.com/pii`).
+
+**Once again, Hagana would have blocked this outright!**
+
+But let's say that for whatever reason you decided to globally allow **all** network
+
+### **Malcious use of spawn/exec**
+
+In most NodeJS applications, the use of `child_process.spawn/exec` and similar functions is rarely necessary. Therefore, Hagana blocks all commands to start off with.
+It's then up to you to decide which commands are allowed. For example, you can allow all node commands (`["node"]`), or only specific commands (`node --version`).
+
+To continue to the next step in the JFrog attack.
+
+The next step is to execute a malicious file that was retrieved using `spawnSync(path.join(process.cwd(), 'mac.dec.js')`.
+
+**Once again, Hagana would have blocked this part of the attack outright!**
