@@ -1,12 +1,12 @@
 {
   "name": "@hagana/hagana",
-  "version": "0.0.6",
+  "version": "0.0.10",
   "description": "Runtime protection for NodeJS",
-  "main": "dist/index.js",
+  "main": "dist/hagana.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "tsc -w",
-    "build": "rm -rf dist && tsc",
+    "build": "rm -rf dist && tsc && esbuild src/index.ts --bundle --platform=node --minify --outfile=./dist/hagana.js",
     "test": "vitest",
     "test:ui": "vitest --ui"
   },
@@ -24,6 +24,7 @@
   "dependencies": {
     "app-root-path": "^3.0.0",
     "clean-stack": "^3.0.1",
-    "error-stack-parser": "^2.1.4"
+    "error-stack-parser": "^2.1.4",
+    "esbuild": "^0.14.47"
   }
 }
