@@ -5,6 +5,10 @@
 
 Hagana provides runtime protection for your NodeJS applications from malicious packages.
 
+##### Table of Contents
+
+[Installation](#Installation)
+
 ## **Installation**
 
 In order to get started with Hagana all you need to do is run:
