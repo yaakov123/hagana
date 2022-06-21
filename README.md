@@ -5,7 +5,13 @@
 
 Hagana provides runtime protection for your NodeJS applications from malicious packages.
 
-> ### [Important Limitations](#limitations)
+---
+
+> #### Before you get too excited, there are a few limitations that still need to be solved before this is a 100% complete solution to supply chain attacks.
+
+> #### A large amount of supply chain attacks occur in the `preinstall/postinstall` scripts inside the package.json file. I do have a solution for this, but I wanted to get a minimum viable solution out for runtime protection out first.
+
+---
 
 ## **Installation**
 
