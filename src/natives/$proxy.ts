@@ -1,6 +1,6 @@
 export const $Proxy = Proxy;
 const $Reflect = Reflect;
-const $reflectApply = Reflect.apply;
+const $reflectApply = $Reflect.apply;
 
 export function reflectApply(
   target: Function,

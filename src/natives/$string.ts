@@ -1,6 +1,7 @@
-const $startsWith = String.prototype.startsWith;
-const $includes = String.prototype.includes;
-const $split = String.prototype.split;
+const $String = String;
+const $startsWith = $String.prototype.startsWith;
+const $includes = $String.prototype.includes;
+const $split = $String.prototype.split;
 
 export function startsWith(
   targetString: string,
