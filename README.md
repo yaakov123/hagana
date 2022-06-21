@@ -52,6 +52,8 @@ hagana.setModulesFolder("libs");
 
 ---
 
+> To see a complete list of which functions Hagana protects see [Coverage](#coverage)
+
 **1. File system protection.**
 
 Hagana's file system protection works by creating a sandbox around your project folder. It tries to determine what the root directory is automatically in order to create the sandbox correctly.
@@ -165,3 +167,29 @@ To continue to the next step in the JFrog attack.
 The next step is to execute a malicious file that was retrieved using `spawnSync(path.join(process.cwd(), 'mac.dec.js')`.
 
 **Once again, Hagana would have blocked this part of the attack outright!**
+
+### Coverage
+
+#### File system
+
+`fs.readFile`
+`fs.readFileSync`
+`fs.promises.readFile`
+`require`
+`fs.writeFile`
+`fs.writeFileSync`
+`fs.promises.writeFile`
+
+#### Network
+
+`http.request`
+`https.request`
+
+#### Commands
+
+`child_process.exec`
+`child_process.execSync`
+`child_process.execFile`
+`child_process.execFileSync`
+`child_process.spawn`
+`child_process.spawnSync`
