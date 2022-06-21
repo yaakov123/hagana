@@ -6,11 +6,12 @@ import { FileSystemForbiddenError } from "../errors";
 import { Operation } from "../types";
 import { getPackageTrace } from "../trace";
 import { getRoot } from "../runtime";
+import { reflectApply } from "../natives/$proxy";
 
 function onRead(target: any, thisArg: any, argArray: any) {
   const trace = getPackageTrace();
   if (isReadAllowed(argArray[0], trace)) {
-    return Reflect.apply(target, thisArg, argArray);
+    return reflectApply(target, thisArg, argArray);
   }
 
   throw new FileSystemForbiddenError(
@@ -24,7 +25,7 @@ function onRead(target: any, thisArg: any, argArray: any) {
 function onWrite(target: any, thisArg: any, argArray: any) {
   const trace = getPackageTrace();
   if (isWriteAllowed(argArray[0], trace)) {
-    return Reflect.apply(target, thisArg, argArray);
+    return reflectApply(target, thisArg, argArray);
   }
 
   throw new FileSystemForbiddenError(
@@ -38,7 +39,7 @@ function onWrite(target: any, thisArg: any, argArray: any) {
 function overrideFSRead() {
   Module.prototype.require = createProxy(Module.prototype.require, {
     apply(target, thisArg, argArray) {
-      return Reflect.apply(target, thisArg, argArray);
+      return reflectApply(target, thisArg, argArray);
     },
   });
 

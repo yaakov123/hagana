@@ -1,9 +1,13 @@
 import * as parser from "error-stack-parser";
+import { filter, findIndex, map, reverse } from "./natives/$array";
+import { $Error } from "./natives/$error";
+import { includes, split, startsWith } from "./natives/$string";
 import { getModulesFolder } from "./runtime";
 import { uniq } from "./utils";
 
 export function isNodeInternalCode(frame: parser.StackFrame) {
-  return frame.fileName?.startsWith("node:internal");
+  if (!frame.fileName) return false;
+  return startsWith(frame.fileName, "node:internal");
 }
 
 function isUserCode(frame: parser.StackFrame) {
@@ -11,16 +15,20 @@ function isUserCode(frame: parser.StackFrame) {
 }
 
 function isNodeModules(frame: parser.StackFrame) {
-  return frame.fileName?.includes(getModulesFolder() as string);
+  if (!frame.fileName) return false;
+  return includes(frame.fileName, getModulesFolder());
 }
 
 function cleanTrace(frames: parser.StackFrame[]) {
-  return frames.filter((frame) => isUserCode(frame) && isNodeModules(frame));
+  return filter(frames, (frame) => isUserCode(frame) && isNodeModules(frame));
 }
 
 export function extractPackageNameFromPath(path: string) {
-  const segments = path.split("/").reverse();
-  const index = segments.findIndex((segment) => segment === getModulesFolder());
+  const segments = reverse(split(path, "/"));
+  const index = findIndex(
+    segments,
+    (segment) => segment === getModulesFolder()
+  );
   if (index > -1 && segments[index - 1]) {
     return segments[index - 1];
   }
@@ -37,28 +45,35 @@ export function extractPackageName(frame: parser.StackFrame) {
 }
 
 export function removeHaganaFrames(frames: parser.StackFrame[]) {
-  return frames.filter((frame) => !frame.fileName?.includes("hagana"));
+  return filter(
+    frames,
+    (frame) => !includes(frame.fileName as string, "hagana")
+  );
 }
 
 export function getRawTrace() {
-  Error.stackTraceLimit = Infinity;
-  return parser.parse(new Error());
+  $Error.stackTraceLimit = Infinity;
+  return parser.parse(new $Error());
 }
 
 export function getInitiator() {
   const trace = getRawTrace();
   const fn = __filename;
 
-  const cleaned = trace.filter((frame) => frame.fileName !== fn);
+  const cleaned = filter(trace, (frame) => frame.fileName !== fn);
   return cleaned[0];
 }
 
 export function isNativeCode() {
-  return getInitiator().fileName?.startsWith("node:internal");
+  return startsWith(getInitiator().fileName as string, "node:internal");
 }
 
 export function getPackageTrace(): string[] {
   const frames = getRawTrace();
 
-  return uniq(cleanTrace(frames).map(extractPackageName).reverse());
+  const trace: string[] = uniq(
+    reverse(map(cleanTrace(frames), extractPackageName))
+  );
+
+  return trace;
 }

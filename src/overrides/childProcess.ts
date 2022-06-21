@@ -1,13 +1,16 @@
 import childProcess from "child_process";
 import { ShellCommandError } from "../errors";
+import { isArray, join } from "../natives/$array";
+import { reflectApply } from "../natives/$proxy";
 import { isShellCommandAllowed } from "../permissions/parser";
+import { createProxy } from "../proxy";
 import { getPackageTrace } from "../trace";
 
 function createCommandString(argArray: any[]) {
   const baseCommand = argArray[0];
   const maybeFlags = argArray[1];
-  if (Array.isArray(maybeFlags)) {
-    return `${baseCommand} ${maybeFlags.join(" ")}`;
+  if (isArray(maybeFlags)) {
+    return `${baseCommand} ${join(maybeFlags, " ")}`;
   }
 
   return baseCommand;
@@ -16,7 +19,7 @@ function createCommandString(argArray: any[]) {
 function onShellAccess(target: any, thisArg: any, argArray: any[]) {
   const command = createCommandString(argArray);
   if (isShellCommandAllowed(command)) {
-    return Reflect.apply(target, thisArg, argArray);
+    return reflectApply(target, thisArg, argArray);
   }
 
   const trace = getPackageTrace();
@@ -24,27 +27,27 @@ function onShellAccess(target: any, thisArg: any, argArray: any[]) {
 }
 
 export function overrideChildProcess() {
-  childProcess.exec = new Proxy(childProcess.exec, {
+  childProcess.exec = createProxy(childProcess.exec, {
     apply: onShellAccess,
   });
 
-  childProcess.execSync = new Proxy(childProcess.execSync, {
+  childProcess.execSync = createProxy(childProcess.execSync, {
     apply: onShellAccess,
   });
 
-  childProcess.execFile = new Proxy(childProcess.execFile, {
+  childProcess.execFile = createProxy(childProcess.execFile, {
     apply: onShellAccess,
   });
 
-  childProcess.execFileSync = new Proxy(childProcess.execFileSync, {
+  childProcess.execFileSync = createProxy(childProcess.execFileSync, {
     apply: onShellAccess,
   });
 
-  childProcess.spawn = new Proxy(childProcess.spawn, {
+  childProcess.spawn = createProxy(childProcess.spawn, {
     apply: onShellAccess,
   });
 
-  childProcess.spawnSync = new Proxy(childProcess.spawnSync, {
+  childProcess.spawnSync = createProxy(childProcess.spawnSync, {
     apply: onShellAccess,
   });
 }

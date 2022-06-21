@@ -1,9 +1,14 @@
 import { getAllowedCommands, getAllowedHosts, getRoot } from "../runtime";
-import path from "path";
+import { startsWith } from "../natives/$string";
+import { isAbsolute, relative } from "../natives/$path";
+import { some } from "../natives/$array";
 
 function isChildOf(parent: string, dir: string) {
-  const relative = path.relative(parent, dir);
-  return relative && !relative.startsWith("..") && !path.isAbsolute(relative);
+  const relativePath = relative(parent, dir);
+
+  return (
+    relativePath && !startsWith(relativePath, "..") && !isAbsolute(relativePath)
+  );
 }
 
 export function isReadAllowed(path: string, trace: string[]) {
@@ -27,11 +32,11 @@ export function isWriteAllowed(path: string, trace: string[]) {
 export function isNetworkAllowed(host: string, trace: string[]) {
   if (trace.length === 0) return true;
 
-  return getAllowedHosts().some((allowedHost) => allowedHost === host);
+  return some(getAllowedHosts(), (allowedHost) => allowedHost === host);
 }
 
 export function isShellCommandAllowed(command: string) {
-  return getAllowedCommands().some((allowedCommand) =>
+  return some(getAllowedCommands(), (allowedCommand) =>
     command.startsWith(allowedCommand)
   );
 }

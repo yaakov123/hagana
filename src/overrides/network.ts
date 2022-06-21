@@ -1,6 +1,8 @@
 import http from "http";
 import https from "https";
 import { NetworkForbiddenError } from "../errors";
+import { reflectApply } from "../natives/$proxy";
+import { $URL } from "../natives/$url";
 import { isNetworkAllowed } from "../permissions/parser";
 import { createProxy } from "../proxy";
 import { getPackageTrace } from "../trace";
@@ -8,10 +10,10 @@ import { getPackageTrace } from "../trace";
 function extractHost(argArray: Args) {
   const firstArg = argArray[0];
   if (typeof firstArg === "string") {
-    return new URL(firstArg).hostname;
+    return new $URL(firstArg).hostname;
   }
 
-  if (firstArg instanceof URL) {
+  if (firstArg instanceof $URL) {
     return firstArg.hostname;
   }
 
@@ -26,7 +28,7 @@ function onHttpNetwork(target: any, thisArg: any, argArray: Args) {
   const host = extractHost(argArray);
   const trace = getPackageTrace();
   if (isNetworkAllowed(host, trace)) {
-    return Reflect.apply(target, thisArg, argArray);
+    return reflectApply(target, thisArg, argArray);
   }
 
   throw new NetworkForbiddenError(host, trace);

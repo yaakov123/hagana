@@ -8,6 +8,7 @@ import {
   maliciousWriteFile,
   maliciousWriteFileSync,
 } from "../fake_modules/malicious-read";
+import { allowedReadFileSync } from "../fake_modules/allowed-read";
 
 describe("fileSystem", () => {
   beforeAll(() => {
@@ -45,5 +46,14 @@ describe("fileSystem", () => {
     expect(() => {
       maliciousWriteFileSync();
     }).toThrowError();
+  });
+
+  test("it should allow fs.readFileSync", () => {
+    try {
+      allowedReadFileSync();
+      expect(true).toBe(true);
+    } catch (e: any) {
+      expect(true).toBe(false);
+    }
   });
 });

@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
+    "module": "ES2020",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
     "declaration": true,
     "rootDirs": ["./src"],
-    "strict": true
+    "strict": true,
+    "types": ["vitest/globals", "vitest/importMeta"]
   },
   "exclude": ["node_modules", "dist"]
 }
