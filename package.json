@@ -1,11 +1,11 @@
 {
   "name": "@hagana/hagana",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Runtime protection for NodeJS",
   "main": "dist/hagana.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "tsc -w",
+    "dev": "rm -rf dist && tsc && esbuild src/index.ts --bundle --platform=node --outfile=./dist/hagana.js  --watch",
     "build": "rm -rf dist && tsc && esbuild src/index.ts --bundle --platform=node --minify --outfile=./dist/hagana.js",
     "test": "vitest",
     "test:ui": "vitest --ui"

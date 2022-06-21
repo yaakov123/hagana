@@ -15,8 +15,6 @@ export class FileSystemForbiddenError extends $Error {
     Project root is ${root}
     Trace: ${join(packageTrace, "->")}
     `);
-
-    this.stack = "";
   }
 }
 
@@ -27,8 +25,6 @@ export class NetworkForbiddenError extends $Error {
     Attempted to access ${host}
     Trace: ${join(packageTrace, "->")}
     `);
-
-    this.stack = "";
   }
 }
 
@@ -39,7 +35,5 @@ export class ShellCommandError extends $Error {
     Attempted to run "${command}"
     Trace: ${join(packageTrace, "->")}
     `);
-
-    this.stack = "";
   }
 }
