@@ -46,7 +46,39 @@ hagana.setModulesFolder("libs");
 
 Hagana's file system protection works by creating a sandbox around your project folder. It tries to determine what the root directory is automatically in order to create the sandbox correctly.
 
-The sandbox essentially prevents 3rd party code from reading/writing to/from the file system that's outside of the project root.
+The sandbox prevents 3rd party code from reading/writing to/from the file system that's outside of the project root.
+
+**2. Network protection.**
+
+Hagana takes a zero-trust approach when it comes to outbound network activity. By default, no outbound traffic is allowed. You can allow outbound traffic by creating a whitelist of hosts as follows:
+
+```js
+import hagana from "hagana";
+
+hagana.setAllowedHosts(["yourserver.com", "yourservices.com"]);
+```
+
+> ⚠️ So far, Hagana only blocks outbound traffic from packages that are using the `http` or `https` modules. Support for other modules (e.g. `net, dgram, dns`) is coming soon.
+
+**3. Command execution protection.**
+
+Hagana also takes a zero-trust approach when it commands to using functions like `child_process.spawn() or exec()` since these funcions have the potential to wreak havoc on your machine.
+
+In most cases, you'll never actually need to run a command using one of these methods, but in case you do, Hagana allows you to create a whitelist of _safe_ commands.
+
+```js
+import hagana from "hagana";
+
+// This will allow ALL commands that start with "node"
+hagana.setAllowedCommands(["node"]);
+
+// This will ONLY allow commands starting with "node --version" to be run
+hagana.setAllowedCommands(["node --version"]);
+```
+
+As a general rule, it's always better to add specific commands to the whitelist.
+
+> ⚠️ Something that I still need to think about is the fact that using the "commands startsWith" approach is it opens a hole that allows an attacker to run `node --version && cat ~/.ssh/id_rsa` which is clearly a problem.
 
 ## **The problem**
 
