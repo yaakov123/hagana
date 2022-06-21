@@ -42,8 +42,6 @@ hagana.setModulesFolder("libs");
 
 ---
 
-> To see a complete list of which functions Hagana protects see [Coverage](#coverage)
-
 **1. File system protection.**
 
 Hagana's file system protection works by creating a sandbox around your project folder. It tries to determine what the root directory is automatically in order to create the sandbox correctly.
@@ -90,6 +88,10 @@ hagana.setAllowedCommands(["node --version"]);
 As a general rule, it's always better to add specific commands to the whitelist.
 
 > ⚠️ Something that I still need to think about is the fact that using the "commands startsWith" approach is it opens a hole that allows an attacker to run `node --version && cat ~/.ssh/id_rsa` which is clearly a problem.
+
+---
+
+> To see a complete list of which functions Hagana protects see [Coverage](#coverage)
 
 ---
 
