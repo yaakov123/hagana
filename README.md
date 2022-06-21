@@ -5,6 +5,49 @@
 
 Hagana provides runtime protection for your NodeJS applications from malicious packages.
 
+## **Installation**
+
+In order to get started with Hagana all you need to do is run:
+
+```console
+npm i hagana
+```
+
+Then, at the entrypoint of your application import the Hagana library
+
+```javascript
+import hagana from "hagana";
+```
+
+Behind the scenes, this will enable:
+
+- File system protection
+- Network protection
+- Command execution protection
+
+Let's dig a bit deeper into what each one of those options means.
+
+The first thing that needs to be explained is the difference between 1st and 3rd party code.
+
+_1st party code_ - is the code that **you** write. This code has privileged access and is not affected by Hagana's protection.
+
+_3rd party code_ - is the code that is added by way of `npm i` and is located generally located in the `node_modules` folder.
+
+> 💭 If your 3rd party code is **not** located in `node_modules` then you can tell Hagana where it is by running:
+
+```js
+import hagana from "hagana";
+hagana.setModulesFolder("libs");
+```
+
+---
+
+**1. File system protection.**
+
+Hagana's file system protection works by creating a sandbox around your project folder. It tries to determine what the root directory is automatically in order to create the sandbox correctly.
+
+The sandbox essentially prevents 3rd party code from reading/writing to/from the file system that's outside of the project root.
+
 ## **The problem**
 
 Every time you add a new npm package to your project you're opening a Pandora's box.
