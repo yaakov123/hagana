@@ -35,7 +35,7 @@ The first thing that needs to be explained is the difference between 1st and 3rd
 
 _1st party code_ - is the code that **you** write. This code has privileged access and is not affected by Hagana's protection.
 
-_3rd party code_ - is the code that is added by way of `npm i` and is located generally located in the `node_modules` folder.
+_3rd party code_ - is the code that is added by way of `npm i` and is generally located in the `node_modules` folder.
 
 > 💭 If your 3rd party code is **not** located in `node_modules` then you can tell Hagana where it is by running:
 
