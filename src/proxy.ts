@@ -11,7 +11,7 @@ export function setProxy(proxy: any, original: any) {
   return weakMapSet(proxyToOriginalMap, proxy, original);
 }
 
-export function createProxy(target: any, handler: ProxyHandler<any>) {
+export function createProxy<T>(target: T, handler: ProxyHandler<any>) {
   const proxy = new $Proxy(target, handler);
   setProxy(proxy, target);
   return proxy;

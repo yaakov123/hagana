@@ -1,14 +1,17 @@
 import * as hagana from "../../index";
 import { beforeAll, describe, expect, test } from "vitest";
 import {
+  maliciousOpen,
+  maliciousOpenSync,
+  maliciousPromiseOpen,
   maliciousPromiseReadFile,
   maliciousPromiseWriteFile,
   maliciousReadFile,
   maliciousReadFileSync,
   maliciousWriteFile,
   maliciousWriteFileSync,
-} from "../fake_modules/malicious-read";
-import { allowedReadFileSync } from "../fake_modules/allowed-read";
+} from "../fake_modules/malicious-fs";
+import { allowedReadFileSync } from "../fake_modules/allowed-fs";
 
 describe("fileSystem", () => {
   beforeAll(() => {
@@ -46,6 +49,20 @@ describe("fileSystem", () => {
     expect(() => {
       maliciousWriteFileSync();
     }).toThrowError();
+  });
+
+  test("it should prevent fs.openSync", () => {
+    expect(() => {
+      maliciousOpenSync();
+    }).toThrowError();
+  });
+
+  test("it should prevent fs.open", () => {
+    expect(maliciousOpen()).rejects.toThrowError();
+  });
+
+  test("it should prevent fs.promises.open", () => {
+    expect(maliciousPromiseOpen()).rejects.toThrowError();
   });
 
   test("it should allow fs.readFileSync", () => {

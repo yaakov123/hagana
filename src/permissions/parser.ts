@@ -20,6 +20,15 @@ export function isReadAllowed(path: string, trace: string[]) {
   return false;
 }
 
+export function isFSOperationAllowed(path: string, trace: string[]) {
+  if (trace.length === 0) return true;
+  if (isChildOf(getRoot(), path)) {
+    return true;
+  }
+
+  return false;
+}
+
 export function isWriteAllowed(path: string, trace: string[]) {
   if (trace.length === 0) return true;
   if (isChildOf(getRoot(), path)) {

@@ -1,7 +1,7 @@
 import Module from "module";
 import fs from "fs";
 import { createProxy } from "../proxy";
-import { isReadAllowed, isWriteAllowed } from "../permissions/parser";
+import { isFSOperationAllowed } from "../permissions/parser";
 import { FileSystemForbiddenError } from "../errors";
 import { Operation } from "../types";
 import { getPackageTrace } from "../trace";
@@ -10,7 +10,7 @@ import { reflectApply } from "../natives/$proxy";
 
 function onRead(target: any, thisArg: any, argArray: any) {
   const trace = getPackageTrace();
-  if (isReadAllowed(argArray[0], trace)) {
+  if (isFSOperationAllowed(argArray[0], trace)) {
     return reflectApply(target, thisArg, argArray);
   }
 
@@ -24,12 +24,26 @@ function onRead(target: any, thisArg: any, argArray: any) {
 
 function onWrite(target: any, thisArg: any, argArray: any) {
   const trace = getPackageTrace();
-  if (isWriteAllowed(argArray[0], trace)) {
+  if (isFSOperationAllowed(argArray[0], trace)) {
     return reflectApply(target, thisArg, argArray);
   }
 
   throw new FileSystemForbiddenError(
     Operation.FILE_WRITE,
+    trace,
+    argArray[0],
+    getRoot()
+  );
+}
+
+function onFsOperation(target: any, thisArg: any, argArray: any[]) {
+  const trace = getPackageTrace();
+  if (isFSOperationAllowed(argArray[0], trace)) {
+    return reflectApply(target, thisArg, argArray);
+  }
+
+  throw new FileSystemForbiddenError(
+    target.name,
     trace,
     argArray[0],
     getRoot()
@@ -70,7 +84,22 @@ function overrideFSWrite() {
   });
 }
 
+function overrideOtherFS() {
+  fs.open = createProxy(fs.open, {
+    apply: onFsOperation,
+  });
+
+  fs.openSync = createProxy(fs.openSync, {
+    apply: onFsOperation,
+  });
+
+  fs.promises.open = createProxy(fs.promises.open, {
+    apply: onFsOperation,
+  });
+}
+
 export function overrideFS() {
   overrideFSRead();
   overrideFSWrite();
+  overrideOtherFS();
 }

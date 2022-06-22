@@ -39,7 +39,10 @@ export function maliciousWriteFile() {
 }
 
 export function maliciousWriteFileSync() {
-  fs.writeFileSync(path.resolve(__dirname, "../../protected/.env"), "utf-8");
+  fs.writeFileSync(
+    path.resolve(__dirname, "../../protected/.env"),
+    "malicious data"
+  );
 }
 
 export async function maliciousPromiseWriteFile() {
@@ -47,4 +50,26 @@ export async function maliciousPromiseWriteFile() {
     path.resolve(__dirname, "../../protected/.env"),
     "malicious data"
   );
+}
+
+export function maliciousOpenSync() {
+  const filePath = path.resolve(__dirname, "../../protected/.env");
+  const fd = fs.openSync(filePath, "w+");
+  fs.writeSync(fd, "malicious data");
+}
+
+export async function maliciousOpen() {
+  const filePath = path.resolve(__dirname, "../../protected/.env");
+  return new Promise((res, rej) => {
+    fs.open(filePath, "w+", (err, fd) => {
+      fs.writeSync(fd, "malicious data");
+      res("");
+    });
+  });
+}
+
+export async function maliciousPromiseOpen() {
+  const filePath = path.resolve(__dirname, "../../protected/.env");
+  const { fd } = await fs.promises.open(filePath, "w+");
+  fs.writeSync(fd, "malicious data");
 }

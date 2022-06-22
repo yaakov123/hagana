@@ -4,7 +4,7 @@ import { Operation } from "./types";
 
 export class FileSystemForbiddenError extends $Error {
   constructor(
-    operation: Operation,
+    operation: Operation | string,
     packageTrace: string[],
     path: string,
     root: string
