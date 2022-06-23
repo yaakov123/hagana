@@ -4,6 +4,7 @@ import {
   isArray,
   join,
   map,
+  push,
   reverse,
   some,
 } from "../../natives/$array";
@@ -38,5 +39,11 @@ describe("$array", () => {
 
   test("map", () => {
     expect(map([1, 2, 3], (item) => item * 2)).toEqual([2, 4, 6]);
+  });
+
+  test("push", () => {
+    const arr = [1, 2, 3];
+    push(arr, 4, 5);
+    expect(arr).toEqual([1, 2, 3, 4, 5]);
   });
 });

@@ -1,8 +1,11 @@
+import { filter, push } from "./natives/$array";
+
 interface Runtime {
   root: string;
   modulesFolder: string;
   allowedHosts: string[];
   allowedCommands: string[];
+  allowedFilePaths: string[];
 }
 
 const runtime: Runtime = {
@@ -10,6 +13,7 @@ const runtime: Runtime = {
   modulesFolder: "node_modules",
   allowedHosts: [],
   allowedCommands: [],
+  allowedFilePaths: [],
 };
 
 export function setRoot(root: string) {
@@ -42,4 +46,19 @@ export function setAllowedCommands(commands: string[]) {
 
 export function getAllowedCommands() {
   return runtime.allowedCommands;
+}
+
+export function addAllowedFilePath(path: string) {
+  push(runtime.allowedFilePaths, path);
+}
+
+export function removeAllowedFilePath(path: string) {
+  runtime.allowedFilePaths = filter(
+    runtime.allowedFilePaths,
+    (allowedPath) => allowedPath !== path
+  );
+}
+
+export function getAllowedFilePaths() {
+  return runtime.allowedFilePaths;
 }

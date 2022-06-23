@@ -1,7 +1,12 @@
-import { getAllowedCommands, getAllowedHosts, getRoot } from "../runtime";
+import {
+  getAllowedCommands,
+  getAllowedFilePaths,
+  getAllowedHosts,
+  getRoot,
+} from "../runtime";
 import { startsWith } from "../natives/$string";
 import { isAbsolute, relative } from "../natives/$path";
-import { some } from "../natives/$array";
+import { arrayIncludes, some } from "../natives/$array";
 
 function isChildOf(parent: string, dir: string) {
   const relativePath = relative(parent, dir);
@@ -22,7 +27,10 @@ export function isReadAllowed(path: string, trace: string[]) {
 
 export function isFSOperationAllowed(path: string, trace: string[]) {
   if (trace.length === 0) return true;
-  if (isChildOf(getRoot(), path)) {
+  if (
+    isChildOf(getRoot(), path) ||
+    arrayIncludes(getAllowedFilePaths(), path)
+  ) {
     return true;
   }
 

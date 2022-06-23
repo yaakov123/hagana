@@ -6,6 +6,8 @@ const $filter = $Array.prototype.filter;
 const $reverse = $Array.prototype.reverse;
 const $findIndex = $Array.prototype.findIndex;
 const $map = $Array.prototype.map;
+const $push = $Array.prototype.push;
+const $includes = $Array.prototype.includes;
 
 export function some(
   arr: any[],
@@ -49,4 +51,16 @@ export function findIndex(
   thisArg?: any
 ) {
   return $findIndex.call(arr, predicate, thisArg);
+}
+
+export function push(arr: any[], ...items: any[]) {
+  return $push.call(arr, ...items);
+}
+
+export function arrayIncludes(
+  arr: any[],
+  searchElement: any,
+  fromIndex?: number
+) {
+  return $includes.call(arr, searchElement, fromIndex);
 }

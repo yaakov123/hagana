@@ -8,6 +8,7 @@ import {
   setAllowedCommands,
 } from "./runtime";
 import appRoot from "app-root-path";
+import { overrideWorker } from "./overrides/worker";
 
 setRoot(appRoot.path);
 
@@ -15,5 +16,6 @@ setRoot(appRoot.path);
 overrideFS();
 overrideNetwork();
 overrideChildProcess();
+overrideWorker();
 
 export { setRoot, setModulesFolder, setAllowedHosts, setAllowedCommands };
