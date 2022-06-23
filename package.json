@@ -1,6 +1,6 @@
 {
   "name": "@hagana/hagana",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Runtime protection for NodeJS",
   "main": "dist/hagana.js",
   "module": "dist/hagana-esm.js",
