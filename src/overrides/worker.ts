@@ -2,13 +2,8 @@ import workerThreads from "node:worker_threads";
 import { reflectConstruct } from "../natives/$proxy";
 import { createProxy } from "../proxy";
 import { isAbsolute, resolve } from "../natives/$path";
-import fs from "fs";
 import { readFileSync } from "../natives/$fs";
-import {
-  addAllowedFilePath,
-  getAllowedFilePaths,
-  removeAllowedFilePath,
-} from "../runtime";
+
 function resolvePathByCWD(filePath: string) {
   return isAbsolute(filePath) ? filePath : resolve(process.cwd(), filePath);
 }
