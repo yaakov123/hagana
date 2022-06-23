@@ -3,10 +3,12 @@
   "version": "0.0.13",
   "description": "Runtime protection for NodeJS",
   "main": "dist/hagana.js",
+  "module": "dist/hagana-esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "rm -rf dist && tsc && esbuild src/index.ts --bundle --platform=node --outfile=./dist/hagana.js  --watch",
-    "build": "rm -rf dist && tsc && esbuild src/index.ts --bundle --platform=node --minify --outfile=./dist/hagana.js",
+    "build": "rm -rf dist && tsc && esbuild src/index.ts --bundle --platform=node --minify --outfile=./dist/hagana.js && npm run build:esm",
+    "build:esm": "esbuild src/index.ts --bundle --platform=node --minify --outfile=./dist/hagana-esm.js --format=esm",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "prepublishOnly": "npm run build"

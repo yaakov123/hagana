@@ -2,24 +2,34 @@ import workerThreads from "node:worker_threads";
 import { reflectConstruct } from "../natives/$proxy";
 import { createProxy } from "../proxy";
 import { isAbsolute, resolve } from "../natives/$path";
-import { readFileSync, writeFileSync } from "../natives/$fs";
+import { readFileSync } from "../natives/$fs";
+import { rootTemporaryDirectory, temporaryWriteSync } from "tempy";
 import {
-  temporaryFile,
-  temporaryDirectory,
-  rootTemporaryDirectory,
-  temporaryWriteSync,
-} from "tempy";
-import { addAllowedFilePath } from "../runtime";
+  addAllowedFilePath,
+  getAllowedCommands,
+  getAllowedFilePaths,
+  getAllowedHosts,
+  getModulesFolder,
+  getRoot,
+} from "../runtime";
 
 function resolvePathByCWD(filePath: string) {
   return isAbsolute(filePath) ? filePath : resolve(process.cwd(), filePath);
 }
 
 function injectHagana(file: string) {
-  console.log(__filename);
-  if (file.includes("require")) {
-    const line = `const hagana = require("${__filename}")`;
+  // Only inject if we're not using ESM
+  if (file.includes("require(") || !file.includes("import")) {
+    const haganaImport = `const hagana = require("${__filename}")`;
+    const line = `${haganaImport}
+    hagana.setRoot("${getRoot()}");
+    hagana.setModulesFolder("${getModulesFolder()}");
+    hagana.setAllowedCommands(${JSON.stringify(getAllowedCommands())});
+    hagana.setAllowedHosts(${JSON.stringify(getAllowedHosts())});
+    
+    `;
     if (file.includes(line)) return file;
+
     return `
     ${line}
     ${file}
@@ -34,11 +44,9 @@ function onWorkerCreated(target: any, argArray: any, newTarget: any) {
   const workerFile = readFileSync(resolvedPath, "utf-8");
   const injected = injectHagana(workerFile);
 
-  console.log(rootTemporaryDirectory);
   addAllowedFilePath(rootTemporaryDirectory);
-  const tempFile = temporaryWriteSync(injected, { name: "script.js" });
+  const tempFile = temporaryWriteSync(injected, { name: "worker.js" });
   argArray[0] = tempFile;
-  //   writeFileSync(resolvedPath, injected, { encoding: "utf-8" });
 
   return reflectConstruct(target, argArray, newTarget);
 }

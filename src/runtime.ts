@@ -32,7 +32,7 @@ export function getModulesFolder() {
   return runtime.modulesFolder;
 }
 
-export function setAllowedHosts(hosts: string[]) {
+export function setAllowedHosts(hosts: string[] = []) {
   runtime.allowedHosts = hosts;
 }
 
@@ -40,7 +40,7 @@ export function getAllowedHosts() {
   return runtime.allowedHosts;
 }
 
-export function setAllowedCommands(commands: string[]) {
+export function setAllowedCommands(commands: string[] = []) {
   runtime.allowedCommands = commands;
 }
 
@@ -50,6 +50,10 @@ export function getAllowedCommands() {
 
 export function addAllowedFilePath(path: string) {
   push(runtime.allowedFilePaths, path);
+}
+
+export function setAllowedFilePaths(paths: string[] = []) {
+  runtime.allowedFilePaths = paths;
 }
 
 export function removeAllowedFilePath(path: string) {
