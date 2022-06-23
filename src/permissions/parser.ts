@@ -29,7 +29,7 @@ export function isFSOperationAllowed(path: string, trace: string[]) {
   if (trace.length === 0) return true;
   if (
     isChildOf(getRoot(), path) ||
-    arrayIncludes(getAllowedFilePaths(), path)
+    some(getAllowedFilePaths(), (allowedPath) => startsWith(path, allowedPath))
   ) {
     return true;
   }

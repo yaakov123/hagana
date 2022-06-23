@@ -16,6 +16,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/app-root-path": "^1.2.4",
+    "@types/tmp": "^0.2.3",
     "@vitest/ui": "^0.15.1",
     "esbuild": "^0.14.47",
     "nodemon": "^2.0.16",
@@ -25,7 +26,7 @@
   },
   "dependencies": {
     "app-root-path": "^3.0.0",
-    "clean-stack": "^3.0.1",
-    "error-stack-parser": "^2.1.4"
+    "error-stack-parser": "^2.1.4",
+    "tempy": "^3.0.0"
   }
 }
