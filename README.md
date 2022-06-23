@@ -185,6 +185,9 @@ The next step is to execute a malicious file that was retrieved using `spawnSync
 - `fs.writeFile`
 - `fs.writeFileSync`
 - `fs.promises.writeFile`
+- `fs.open`
+- `fs.openSync`
+- `fs.promises.open`
 
 #### Network
 
