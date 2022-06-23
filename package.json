@@ -10,9 +10,10 @@
     "build": "rm -rf dist && tsc && esbuild src/index.ts --bundle --platform=node --minify --outfile=./dist/hagana.js && npm run build:esm",
     "build:esm": "esbuild src/index.ts --bundle --platform=node --minify --outfile=./dist/hagana-esm.js --format=esm",
     "test": "vitest",
+    "test:prerelease": "vitest run",
     "test:ui": "vitest --ui",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run test",
+    "prepublishOnly": "npm run test:prerelease",
     "version": "git add .",
     "postversion": "git push && git push --tags"
   },
