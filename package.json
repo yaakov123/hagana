@@ -11,7 +11,10 @@
     "build:esm": "esbuild src/index.ts --bundle --platform=node --minify --outfile=./dist/hagana-esm.js --format=esm",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "prepublishOnly": "npm run build"
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run test",
+    "version": "git add .",
+    "postversion": "git push && git push --tags"
   },
   "keywords": [],
   "author": "",
