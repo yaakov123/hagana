@@ -7,11 +7,11 @@ import { rootTemporaryDirectory, temporaryWriteSync } from "tempy";
 import {
   addAllowedFilePath,
   getAllowedCommands,
-  getAllowedFilePaths,
   getAllowedHosts,
   getModulesFolder,
   getRoot,
 } from "../runtime";
+import { includes } from "../natives/$string";
 
 function resolvePathByCWD(filePath: string) {
   return isAbsolute(filePath) ? filePath : resolve(process.cwd(), filePath);
@@ -19,7 +19,7 @@ function resolvePathByCWD(filePath: string) {
 
 function injectHagana(file: string) {
   // Only inject if we're not using ESM
-  if (file.includes("require(") || !file.includes("import")) {
+  if (includes(file, "require(") || !includes(file, "import")) {
     const haganaImport = `const hagana = require("${__filename}")`;
     const line = `${haganaImport}
     hagana.setRoot("${getRoot()}");
@@ -28,7 +28,7 @@ function injectHagana(file: string) {
     hagana.setAllowedHosts(${JSON.stringify(getAllowedHosts())});
     
     `;
-    if (file.includes(line)) return file;
+    if (includes(file, line)) return file;
 
     return `
     ${line}
