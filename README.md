@@ -20,7 +20,7 @@ npm i hagana
 Then, at the entrypoint of your application import the Hagana library
 
 ```javascript
-import hagana from "hagana";
+import * as hagana from "hagana";
 ```
 
 Behind the scenes, this will enable:
@@ -40,7 +40,7 @@ _3rd party code_ - is the code that is added by way of `npm i` and is generally 
 > 💭 If your 3rd party code is **not** located in `node_modules` then you can tell Hagana where it is by running:
 
 ```js
-import hagana from "hagana";
+import * as hagana from "hagana";
 hagana.setModulesFolder("libs");
 ```
 
@@ -55,7 +55,7 @@ The sandbox prevents 3rd party code from reading/writing to/from the file system
 As mentioned previously, Hagana does a best effort attempt at finding the project root automatically, but if you'd like to tell it explicitly, you can do the following:
 
 ```js
-import hagana from "hagana";
+import * as hagana from "hagana";
 
 // Or whatever absolute path you'd like
 hagana.setRoot(__dirname);
@@ -66,7 +66,7 @@ hagana.setRoot(__dirname);
 Hagana takes a zero-trust approach when it comes to outbound network activity. By default, no outbound traffic is allowed. You can allow outbound traffic by creating a whitelist of hosts as follows:
 
 ```js
-import hagana from "hagana";
+import * as hagana from "hagana";
 
 hagana.setAllowedHosts(["yourserver.com", "yourservices.com"]);
 ```
@@ -80,7 +80,7 @@ Hagana also takes a zero-trust approach when it commands to using functions like
 In most cases, you'll never actually need to run a command using one of these methods, but in case you do, Hagana allows you to create a whitelist of _safe_ commands.
 
 ```js
-import hagana from "hagana";
+import * as hagana from "hagana";
 
 // This will allow ALL commands that start with "node"
 hagana.setAllowedCommands(["node"]);
