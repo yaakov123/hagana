@@ -4,7 +4,7 @@ import {
   getAllowedHosts,
   getRoot,
 } from "../runtime";
-import { startsWith } from "../natives/$string";
+import { split, startsWith } from "../natives/$string";
 import { isAbsolute, relative } from "../natives/$path";
 import { some } from "../natives/$array";
 
@@ -53,8 +53,21 @@ export function isNetworkAllowed(host: string, trace: string[]) {
 }
 
 export function isShellCommandAllowed(command: string) {
-  return some(
-    getAllowedCommands(),
-    (allowedCommand) => command === allowedCommand
-  );
+  return some(getAllowedCommands(), (allowedCommand) => {
+    const allowedSplit = split(allowedCommand, " ");
+    const commandSplit = split(command, " ");
+
+    if (allowedSplit.length !== commandSplit.length) return;
+
+    for (let i = 0; i < allowedSplit.length; i++) {
+      const allowedSeg = allowedSplit[i];
+      const commandSeg = commandSplit[i];
+
+      if (allowedSeg !== commandSeg && allowedSeg !== "*") {
+        return false;
+      }
+    }
+
+    return true;
+  });
 }

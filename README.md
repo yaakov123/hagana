@@ -82,11 +82,14 @@ In most cases, you'll never actually need to run a command using one of these me
 ```js
 import * as hagana from "hagana";
 
-// This will allow ALL commands that start with "node"
+// This will ONLY allow the command "node"
 hagana.setAllowedCommands(["node"]);
 
-// This will ONLY allow commands starting with "node --version" to be run
-hagana.setAllowedCommands(["node --version"]);
+// This will allow ALL commands that contain "node" and then any other single parameter (e.g. node --version)
+hagana.setAllowedCommands(["node *"]);
+
+// This will NOT work (node -v; cat /etc/passwd) since we only have one wildcard
+hagana.setAllowedCommands(["node *"]);
 ```
 
 As a general rule, it's always better to add specific commands to the whitelist.
