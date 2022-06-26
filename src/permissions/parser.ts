@@ -6,7 +6,7 @@ import {
 } from "../runtime";
 import { startsWith } from "../natives/$string";
 import { isAbsolute, relative } from "../natives/$path";
-import { arrayIncludes, some } from "../natives/$array";
+import { some } from "../natives/$array";
 
 function isChildOf(parent: string, dir: string) {
   const relativePath = relative(parent, dir);
@@ -53,7 +53,8 @@ export function isNetworkAllowed(host: string, trace: string[]) {
 }
 
 export function isShellCommandAllowed(command: string) {
-  return some(getAllowedCommands(), (allowedCommand) =>
-    command.startsWith(allowedCommand)
+  return some(
+    getAllowedCommands(),
+    (allowedCommand) => command === allowedCommand
   );
 }

@@ -9,9 +9,9 @@ const $map = $Array.prototype.map;
 const $push = $Array.prototype.push;
 const $includes = $Array.prototype.includes;
 
-export function some(
-  arr: any[],
-  predicate: (value: any, index: number, array: any[]) => unknown,
+export function some<T>(
+  arr: T[],
+  predicate: (value: T, index: number, array: any[]) => unknown,
   thisArg?: any
 ) {
   return $some.call(arr, predicate, thisArg);
@@ -45,9 +45,9 @@ export function reverse(arr: any[]) {
   return $reverse.call(arr);
 }
 
-export function findIndex(
-  arr: any[],
-  predicate: (value: any, index: number, obj: any[]) => boolean,
+export function findIndex<T>(
+  arr: T[],
+  predicate: (value: T, index: number, obj: any[]) => boolean,
   thisArg?: any
 ) {
   return $findIndex.call(arr, predicate, thisArg);

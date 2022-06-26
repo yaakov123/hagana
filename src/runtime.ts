@@ -44,7 +44,7 @@ export function setAllowedCommands(commands: string[] = []) {
   runtime.allowedCommands = commands;
 }
 
-export function getAllowedCommands() {
+export function getAllowedCommands(): string[] {
   return runtime.allowedCommands;
 }
 
