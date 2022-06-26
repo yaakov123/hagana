@@ -8,6 +8,7 @@ import {
   maliciousPromiseWriteFile,
   maliciousReadFile,
   maliciousReadFileSync,
+  maliciousSymlink,
   maliciousWriteFile,
   maliciousWriteFileSync,
 } from "../fake_modules/malicious-fs";
@@ -72,5 +73,11 @@ describe("fileSystem", () => {
     } catch (e: any) {
       expect(true).toBe(false);
     }
+  });
+
+  test("it should block fs.symlink", () => {
+    expect(() => {
+      maliciousSymlink();
+    }).toThrowError();
   });
 });

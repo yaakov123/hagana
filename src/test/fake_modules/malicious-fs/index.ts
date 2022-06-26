@@ -73,3 +73,11 @@ export async function maliciousPromiseOpen() {
   const { fd } = await fs.promises.open(filePath, "w+");
   fs.writeSync(fd, "malicious data");
 }
+
+export function maliciousSymlink() {
+  const srcPath = path.resolve(__dirname, "../../overrides/_allowed");
+  const dstPath = path.resolve(__dirname, "../../protected/");
+  fs.symlinkSync(dstPath, srcPath);
+  const content = fs.readFileSync(srcPath, { encoding: "utf8" });
+  console.log("CONTENT=", content);
+}

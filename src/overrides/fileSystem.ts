@@ -96,6 +96,18 @@ function overrideOtherFS() {
   fs.promises.open = createProxy(fs.promises.open, {
     apply: onFsOperation,
   });
+
+  fs.symlinkSync = createProxy(fs.symlinkSync, {
+    apply: onFsOperation,
+  });
+
+  fs.symlink = createProxy(fs.symlink, {
+    apply: onFsOperation,
+  });
+
+  fs.promises.symlink = createProxy(fs.promises.symlink, {
+    apply: onFsOperation,
+  });
 }
 
 export function overrideFS() {
