@@ -3,7 +3,7 @@ import { reflectConstruct } from "../natives/$proxy";
 import { createProxy } from "../proxy";
 import { isAbsolute, resolve } from "../natives/$path";
 import { readFileSync } from "../natives/$fs";
-import { rootTemporaryDirectory, temporaryWriteSync } from "tempy";
+import { root, writeSync } from "tempy";
 import {
   addAllowedFilePath,
   getAllowedCommands,
@@ -12,12 +12,13 @@ import {
   getRoot,
 } from "../runtime";
 import { includes } from "../natives/$string";
+import { inject } from "../utils/inject";
 
-function resolvePathByCWD(filePath: string) {
+export function resolvePathByCWD(filePath: string) {
   return isAbsolute(filePath) ? filePath : resolve(process.cwd(), filePath);
 }
 
-function injectHagana(file: string) {
+export function injectHagana(file: string) {
   // Only inject if we're not using ESM
   if (includes(file, "require(") || !includes(file, "import")) {
     const haganaImport = `const hagana = require("${__filename}")`;
@@ -40,14 +41,7 @@ function injectHagana(file: string) {
 }
 
 function onWorkerCreated(target: any, argArray: any, newTarget: any) {
-  const resolvedPath = resolvePathByCWD(argArray[0]);
-  const workerFile = readFileSync(resolvedPath, "utf-8");
-  const injected = injectHagana(workerFile);
-
-  addAllowedFilePath(rootTemporaryDirectory);
-  const tempFile = temporaryWriteSync(injected, { name: "worker.js" });
-  argArray[0] = tempFile;
-
+  argArray[0] = inject(argArray[0]);
   return reflectConstruct(target, argArray, newTarget);
 }
 
