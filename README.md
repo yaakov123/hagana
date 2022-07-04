@@ -75,7 +75,7 @@ hagana.setAllowedHosts(["yourserver.com", "yourservices.com"]);
 
 **3. Command execution protection.**
 
-Hagana also takes a zero-trust approach when it commands to using functions like `child_process.spawn() or exec()` since these funcions have the potential to wreak havoc on your machine.
+Hagana also takes a zero-trust approach when it commands to using functions like `child_process.spawn() or exec()` since these functions have the potential to wreak havoc on your machine.
 
 In most cases, you'll never actually need to run a command using one of these methods, but in case you do, Hagana allows you to create a whitelist of _safe_ commands.
 
