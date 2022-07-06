@@ -7,6 +7,7 @@ import { Operation } from "../types";
 import { getPackageTrace } from "../trace";
 import { getRoot } from "../runtime";
 import { reflectApply } from "../natives/$proxy";
+import { setFdToPath } from "../maps/fdToPath";
 
 function onRead(target: any, thisArg: any, argArray: any) {
   const trace = getPackageTrace();
@@ -84,17 +85,23 @@ function overrideFSWrite() {
   });
 }
 
+function onFSSocketOperation(target: any, thisArg: any, argArray: any[]) {
+  const fd = onFsOperation(target, thisArg, argArray);
+  setFdToPath(fd, argArray[0]);
+  return fd;
+}
+
 function overrideOtherFS() {
   fs.open = createProxy(fs.open, {
-    apply: onFsOperation,
+    apply: onFSSocketOperation,
   });
 
   fs.openSync = createProxy(fs.openSync, {
-    apply: onFsOperation,
+    apply: onFSSocketOperation,
   });
 
   fs.promises.open = createProxy(fs.promises.open, {
-    apply: onFsOperation,
+    apply: onFSSocketOperation,
   });
 
   fs.symlinkSync = createProxy(fs.symlinkSync, {

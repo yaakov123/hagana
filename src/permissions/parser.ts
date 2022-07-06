@@ -7,8 +7,13 @@ import {
 import { split, startsWith } from "../natives/$string";
 import { isAbsolute, relative } from "../natives/$path";
 import { some } from "../natives/$array";
+import { getPathFromFd } from "../maps/fdToPath";
 
-function isChildOf(parent: string, dir: string) {
+function isChildOf(parent: string, dir: string | number) {
+  if (typeof dir === "number") {
+    dir = getPathFromFd(dir);
+  }
+
   const relativePath = relative(parent, dir);
 
   return (

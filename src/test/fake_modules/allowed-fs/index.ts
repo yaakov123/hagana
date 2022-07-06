@@ -7,3 +7,9 @@ export function allowedReadFileSync() {
     "utf-8"
   );
 }
+
+export function allowedReadFileFd() {
+  const filePath = path.resolve(__dirname, "../../overrides/allowed/.env");
+  const socket = fs.openSync(filePath, "r");
+  const fileContents = fs.readFileSync(socket);
+}
