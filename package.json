@@ -17,8 +17,11 @@
     "version": "git add .",
     "postversion": "git push && git push --tags"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "nodejs",
+    "supply chain attack"
+  ],
+  "author": "Jacob Beckerman",
   "license": "MIT",
   "devDependencies": {
     "@types/app-root-path": "^1.2.4",
@@ -34,5 +37,9 @@
     "app-root-path": "^3.0.0",
     "error-stack-parser": "^2.1.4",
     "tempy": "^1.0.1"
+  },
+  "repository": {
+    "url": "https://github.com/yaakov123/hagana",
+    "type": "git"
   }
 }
